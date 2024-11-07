@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PriceModule } from './price/price.module';
@@ -17,7 +16,6 @@ import config from './config';
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
     }),
-    UsersModule,
     PriceModule,
     PriceAlertModule,
   ],

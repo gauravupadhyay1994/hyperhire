@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import Moralis from 'moralis';
 import { Price } from './entities/price.entity';
-import * as nodemailer from 'nodemailer';
 import { BigNumber } from 'bignumber.js';
+import * as sgMail from '@sendgrid/mail';
 
 @Injectable()
 export class PriceService {
@@ -12,6 +12,11 @@ export class PriceService {
     @InjectRepository(Price)
     private priceRepository: Repository<Price>,
   ) {
+    Moralis.start({
+      apiKey:
+        process.env.MORALIS_APP_ID ||
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2ZDEwOGExLWFlZGItNGQwMy1iODU0LTRhNjg0OTQ4OWYxNiIsIm9yZ0lkIjoiMjMxNjkxIiwidXNlcklkIjoiMjMyNTk5IiwidHlwZUlkIjoiZmY4MjdmNjQtNmU3YS00ZTlkLWI1NzEtMTY4NzI3ZTk3MGUwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2OTE3NDkwNDgsImV4cCI6NDg0NzUwOTA0OH0.C-f-Bmo94BY8-rNezwi5jXmBbAsUqArOM6t84oW88t4',
+    });
     setTimeout(() => this.fetchPrices(), 10000);
   }
 
@@ -112,23 +117,18 @@ export class PriceService {
   }
 
   private async sendEmail(priceChange: string) {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail', // You can use any email service provider here
-      auth: {
-        user: 'your-email@gmail.com', // Replace with your email
-        pass: 'your-email-password', // Replace with your email password (consider using OAuth2 or App password for security)
-      },
-    });
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Load API key from .env
 
-    const mailOptions = {
-      from: 'your-email@gmail.com', // Sender address
+    const msg = {
       to: 'hyperhire_assignment@hyperhire.in', // Receiver address
+      from: 'gaurav1567@example.com', // Your email (this must be verified with SendGrid)
       subject: 'Price Alert: Chain Price Increased by More Than 3%',
       text: `The price of the chain has increased by ${priceChange}.`, // Email content
     };
 
     try {
-      await transporter.sendMail(mailOptions);
+      console.log('Please add the sg mail token and uncomment the below code');
+      // await sgMail.send(msg);
       console.log('Email sent successfully');
     } catch (error) {
       console.error('Error sending email:', error);
@@ -138,8 +138,9 @@ export class PriceService {
   private async checkPriceChange() {
     try {
       // Get the latest price
-      const latestPrice = await this.priceRepository.findOne({
+      const latestPrice = await this.priceRepository.find({
         order: { timestamp: 'DESC' },
+        take: 1,
       });
 
       // Get the price from one hour ago
@@ -159,13 +160,13 @@ export class PriceService {
 
       // Calculate the percentage change in price for Ethereum using BigNumber
       const ethPriceChange = this.calculatePriceChange(
-        new BigNumber(latestPrice.ethPrice),
+        new BigNumber(latestPrice[0].ethPrice),
         new BigNumber(oneHourAgoPrice.ethPrice),
       );
 
       // Calculate the percentage change in price for Polygon using BigNumber
       const polygonPriceChange = this.calculatePriceChange(
-        new BigNumber(latestPrice.polygonPrice),
+        new BigNumber(latestPrice[0].polygonPrice),
         new BigNumber(oneHourAgoPrice.polygonPrice),
       );
 

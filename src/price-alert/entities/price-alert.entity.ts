@@ -1,5 +1,9 @@
-// src/price-alert/entities/price-alert.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class PriceAlert {
@@ -15,6 +19,6 @@ export class PriceAlert {
   @Column()
   email: string;
 
-  @Column()
+  @CreateDateColumn()
   createdAt: Date;
 }

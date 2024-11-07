@@ -1,4 +1,3 @@
-// src/price-alert/dto/set-price-alert.dto.ts
 import { IsString, IsEmail, IsDecimal, IsNotEmpty } from 'class-validator';
 
 export class PriceAlertDto {
