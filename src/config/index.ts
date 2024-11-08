@@ -7,6 +7,8 @@ export default (): any => ({
     database: 'scheduler',
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
     synchronize: true,
-    ssl: process.env.POSTGRES_SSL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
