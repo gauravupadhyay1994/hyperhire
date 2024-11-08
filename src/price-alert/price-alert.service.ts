@@ -5,8 +5,7 @@ import { PriceAlert } from './entities/price-alert.entity';
 import { Price } from 'src/price/entities/price.entity';
 import { PriceAlertDto } from './dto/create-price-alert.dto';
 import { BigNumber } from 'bignumber.js';
-import * as sgMail from '@sendgrid/mail';
-
+import nodemailer from 'nodemailer';
 @Injectable()
 export class PriceAlertService {
   constructor(
@@ -70,20 +69,33 @@ export class PriceAlertService {
     setTimeout(() => this.checkPriceAlerts(), 300000);
   }
 
+  createTransporter = () => {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // You can change this to 'outlook', 'yahoo', etc.
+      auth: {
+        user: process.env.EMAIL, // Your email address (e.g. 'example@gmail.com')
+        pass: process.env.PASSWORD, // Your email account's password or app-specific password
+      },
+    });
+    return transporter;
+  };
+
   // Helper method to send email notifications
   private async sendEmail(email: string, chain: string, price: string) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Load API key from .env
-
+    const transporter = this.createTransporter();
     const mailOptions = {
       to: email, // Receiver address
-      from: 'ranjanaupadhyay1965@getMaxListeners.com', // Your email (this must be verified with SendGrid)
+      from: process.env.EMAIL, // Your email
       subject: `Price Alert: ${chain} Price Reached`,
       text: `The price of ${chain} has reached ${price} USD.`, // Email content
     };
 
     try {
-      console.log('token and then remove the comment');
-      //await sgMail.send(mailOptions);
+      console.log(
+        'before uncommenting below please add email Id and password in the .env',
+      );
+      // const info = await transporter.sendMail(mailOptions);
+      // console.log('Email sent: ', info.response);
       console.log('Email sent successfully');
     } catch (error) {
       console.error('Error sending email:', error);

@@ -4,7 +4,7 @@ import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import Moralis from 'moralis';
 import { Price } from './entities/price.entity';
 import { BigNumber } from 'bignumber.js';
-import * as sgMail from '@sendgrid/mail';
+import nodemailer from 'nodemailer';
 
 @Injectable()
 export class PriceService {
@@ -116,19 +116,34 @@ export class PriceService {
       }));
   }
 
+  // Create a transporter using an email provider's SMTP server
+  createTransporter = () => {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // You can change this to 'outlook', 'yahoo', etc.
+      auth: {
+        user: process.env.EMAIL, // Your email address (e.g. 'example@gmail.com')
+        pass: process.env.PASSWORD, // Your email account's password or app-specific password
+      },
+    });
+    return transporter;
+  };
+
   private async sendEmail(priceChange: string) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Load API key from .env
+    const transporter = this.createTransporter();
 
     const msg = {
-      to: 'hyperhire_assignment@hyperhire.in', // Receiver address
-      from: 'gaurav1567@example.com', // Your email (this must be verified with SendGrid)
+      from: process.env.EMAIL, // The email you're sending from
+      to: 'hyperhire_assignment@hyperhire.in', // Recipient email address
       subject: 'Price Alert: Chain Price Increased by More Than 3%',
       text: `The price of the chain has increased by ${priceChange}.`, // Email content
     };
 
     try {
-      console.log('Please add the sg mail token and uncomment the below code');
-      // await sgMail.send(msg);
+      console.log(
+        'before uncommenting below please add email Id and password in the .env',
+      );
+      // const info = await transporter.sendMail(msg);
+      // console.log('Email sent: ', info.response);
       console.log('Email sent successfully');
     } catch (error) {
       console.error('Error sending email:', error);
