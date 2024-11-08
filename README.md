@@ -53,11 +53,12 @@ Before running the project, ensure you have the following installed:
    This command will:
 
    - Build the Docker image for the NestJS application.
-   - Start the application and the PostgreSQL database.
 
 3. The API will be available at `http://localhost:3000`.
 
-4. PostgreSQL will be running on `localhost:5432`. You can connect to it using the credentials in your `.env` file.
+4. Swagger will be available at `http://localhost:3000/api`.
+
+5. PostgreSQL will be running on `localhost:5432`. You can connect to it using the credentials in your `.env` file.
 
 ### Stopping the Application
 
