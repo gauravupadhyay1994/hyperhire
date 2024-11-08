@@ -14,7 +14,6 @@ export class PriceService {
   ) {
     Moralis.start({
       apiKey:
-        process.env.MORALIS_APP_ID ||
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjE2ZDEwOGExLWFlZGItNGQwMy1iODU0LTRhNjg0OTQ4OWYxNiIsIm9yZ0lkIjoiMjMxNjkxIiwidXNlcklkIjoiMjMyNTk5IiwidHlwZUlkIjoiZmY4MjdmNjQtNmU3YS00ZTlkLWI1NzEtMTY4NzI3ZTk3MGUwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2OTE3NDkwNDgsImV4cCI6NDg0NzUwOTA0OH0.C-f-Bmo94BY8-rNezwi5jXmBbAsUqArOM6t84oW88t4',
     });
     setTimeout(() => this.fetchPrices(), 10000);
