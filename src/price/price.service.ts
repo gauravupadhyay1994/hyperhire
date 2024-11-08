@@ -129,6 +129,10 @@ export class PriceService {
   };
 
   private async sendEmail(priceChange: string) {
+    if (!process.env.EMAIL || !process.env.PASSWORD) {
+      console.log('Please enter the email and password in the .env file');
+      return;
+    }
     const transporter = this.createTransporter();
 
     const msg = {
@@ -142,8 +146,8 @@ export class PriceService {
       console.log(
         'before uncommenting below please add email Id and password in the .env',
       );
-      // const info = await transporter.sendMail(msg);
-      // console.log('Email sent: ', info.response);
+      const info = await transporter.sendMail(msg);
+      console.log('Email sent: ', info.response);
       console.log('Email sent successfully');
     } catch (error) {
       console.error('Error sending email:', error);

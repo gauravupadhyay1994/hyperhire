@@ -82,6 +82,10 @@ export class PriceAlertService {
 
   // Helper method to send email notifications
   private async sendEmail(email: string, chain: string, price: string) {
+    if (!process.env.EMAIL || !process.env.PASSWORD) {
+      console.log('Please enter the email and password in the .env file');
+      return;
+    }
     const transporter = this.createTransporter();
     const mailOptions = {
       to: email, // Receiver address
@@ -94,8 +98,9 @@ export class PriceAlertService {
       console.log(
         'before uncommenting below please add email Id and password in the .env',
       );
-      // const info = await transporter.sendMail(mailOptions);
-      // console.log('Email sent: ', info.response);
+
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent: ', info.response);
       console.log('Email sent successfully');
     } catch (error) {
       console.error('Error sending email:', error);
