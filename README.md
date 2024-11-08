@@ -37,12 +37,8 @@ Before running the project, ensure you have the following installed:
 2. Create a `.env` file in the root of the project (or modify the existing one). The `.env` file should contain the following variables:
 
    ```env
-   POSTGRES_HOST=db
-   POSTGRES_USERNAME=postgres
-   POSTGRES_PASSWORD=yourpassword
-   POSTGRES_DATABASE=hyperhire_backend
-   SENDGRID_API_KEY=your_sendgrid_api_key
-   MORALIS_APP_ID=your_moralis_app_id
+   EMAIL=""
+   PASSWORD=""
    ```
 
 ## Running the Project
