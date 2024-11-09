@@ -1,10 +1,10 @@
 export default (): any => ({
   database: {
     type: 'postgres',
-    host: 'ep-lucky-scene-a13gac0r.ap-southeast-1.aws.neon.tech',
-    username: 'scheduler_owner',
-    password: '7dAbBeq4vZFg',
-    database: 'scheduler',
+    host: 'dpg-csnmj00gph6c73bh8l2g-a',
+    username: 'gaurav',
+    password: 'qD1jEiNR5MikJaaffLEtsF0tHhQnMZcx',
+    database: 'hyperhire',
     entities: [`${__dirname}/../**/*.entity.{js,ts}`],
     synchronize: true,
     ssl: {
