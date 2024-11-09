@@ -37,12 +37,8 @@ Before running the project, ensure you have the following installed:
 2. Create a `.env` file in the root of the project (or modify the existing one). The `.env` file should contain the following variables:
 
    ```env
-   POSTGRES_HOST=db
-   POSTGRES_USERNAME=postgres
-   POSTGRES_PASSWORD=yourpassword
-   POSTGRES_DATABASE=hyperhire_backend
-   SENDGRID_API_KEY=your_sendgrid_api_key
-   MORALIS_APP_ID=your_moralis_app_id
+   EMAIL=""
+   PASSWORD=""
    ```
 
 ## Running the Project
@@ -57,11 +53,12 @@ Before running the project, ensure you have the following installed:
    This command will:
 
    - Build the Docker image for the NestJS application.
-   - Start the application and the PostgreSQL database.
 
 3. The API will be available at `http://localhost:3000`.
 
-4. PostgreSQL will be running on `localhost:5432`. You can connect to it using the credentials in your `.env` file.
+4. Swagger will be available at `http://localhost:3000/api`.
+
+5. PostgreSQL will be running on `localhost:5432`. You can connect to it using the credentials in your `.env` file.
 
 ### Stopping the Application
 
