@@ -1,7 +1,7 @@
 export default (): any => ({
   database: {
     type: 'postgres',
-    host: 'dpg-csnmj00gph6c73bh8l2g-a',
+    host: 'dpg-csnmj00gph6c73bh8l2g-a.oregon-postgres.render.com',
     username: 'gaurav',
     password: 'qD1jEiNR5MikJaaffLEtsF0tHhQnMZcx',
     database: 'hyperhire',
